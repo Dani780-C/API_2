@@ -10,7 +10,8 @@ namespace API_2.Helpers
         {
             var repository = context.HttpContext.RequestServices.GetRequiredService<IRepositoryWrapper>();
 
-            if(context.Principal.HasClaim(c => c.Type.Equals(JwtRegisteredClaimNames.Jti)))
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+            if (context.Principal.HasClaim(c => c.Type.Equals(JwtRegisteredClaimNames.Jti)))
             {
                 var jti = context.Principal.Claims.FirstOrDefault(c => c.Type.Equals(JwtRegisteredClaimNames.Jti)).Value;
 
@@ -20,9 +21,9 @@ namespace API_2.Helpers
                 {
                     return;
                 }
-
-                context.Fail("");
             }
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+            context.Fail("");
         }
     }
 }

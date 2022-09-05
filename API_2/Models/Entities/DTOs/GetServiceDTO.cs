@@ -17,7 +17,9 @@
             this.Guarantee = service.Guarantee;
             this.Email = service.Email;
             this.PhoneNumber = service.PhoneNumber;
+#pragma warning disable CS8604 // Possible null reference argument.
             this.Company = new GetCompanyDataDTO(service.Company);
+#pragma warning restore CS8604 // Possible null reference argument.
         }
     }
 }

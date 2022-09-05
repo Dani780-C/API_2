@@ -109,5 +109,56 @@ namespace API_2.Controllers
 
             return Ok(toReturn);
         }
+
+        [HttpPut("update-service/{id_service}")]
+        public async Task<IActionResult> UpdateService(int id_service, CreateServiceDTO dto)
+        {
+            Company comp = await _repo.Company.GetCompanyById(dto.CompanyId);
+            Service srv = await _repo.Service.GetServiceById(id_service);
+
+            if (comp == null)
+            {
+                return BadRequest("The service cannot be updated beacause the company does not exist!");
+            }
+
+            if(srv == null)
+            {
+                return BadRequest("Service does not exist!");
+            }
+
+            if(srv.CompanyId != dto.CompanyId)
+            {
+                return BadRequest("Service does not belong to comapny with given id!");
+            }
+
+            srv.ServiceName = dto.ServiceName;
+            srv.Price = dto.Price;
+            srv.Description = dto.Description;
+            srv.PhoneNumber = dto.PhoneNumber;
+            srv.Email = dto.Email;
+            srv.Guarantee = dto.Guarantee;
+            srv.CompanyId = dto.CompanyId;
+
+            _repo.Service.Update(srv);
+            await _repo.SaveAsync();
+
+            return Ok("The service has been updated!");
+        }
+
+        [HttpDelete("delete-service/{id_service}")]
+        public async Task<IActionResult> DeleteServiceById(int id_service)
+        {
+            var service = await _repo.Service.GetServiceById(id_service);
+
+            if (service == null)
+            {
+                return NotFound("Service does not exist!");
+            }
+
+            _repo.Service.Delete(service);
+            await _repo.SaveAsync();
+
+            return NoContent();
+        }
     }
 }

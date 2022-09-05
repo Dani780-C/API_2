@@ -28,7 +28,18 @@ namespace API_2.Controllers
                 userToReturn.Add(new GetUserDTO(user));
             }
 
-            return Ok(userToReturn);
+            return Ok(users);
+        }
+
+        [HttpDelete("delete-all-users")]
+        public async Task<IActionResult> DeleteAllUsers()
+        {
+            var users = _repo.User.GetAll();
+
+            _repo.User.DeleteRange(users);
+            await _repo.SaveAsync();
+
+            return Ok("All users removed!");
         }
     }
 }

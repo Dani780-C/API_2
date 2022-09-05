@@ -10,7 +10,9 @@ namespace API_2.Repositories
 
         public async Task<CompanyProfile> GetByCompanyId(int companyId)
         {
+#pragma warning disable CS8603 // Possible null reference return.
             return await _context.CompanyProfiles.Where(companyprofile => companyprofile.CompanyId.Equals(companyId)).FirstOrDefaultAsync();
+#pragma warning restore CS8603 // Possible null reference return.
         }
     }
 }

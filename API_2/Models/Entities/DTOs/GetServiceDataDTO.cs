@@ -12,7 +12,9 @@
     
         public GetServiceDataDTO(ClientService service)
         {
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
             this.ServiceName = service.Service.ServiceName;
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
             this.Description = service.Service.Description;
             this.Price = service.Service.Price;
             this.Guarantee = service.Service.Guarantee;

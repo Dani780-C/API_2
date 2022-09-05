@@ -6,24 +6,28 @@ using Microsoft.EntityFrameworkCore;
 namespace API_2.Data
 {
         public class DataContext : IdentityDbContext<User, Role, int,
-        IdentityUserClaim<int>, UserRole, IdentityUserLogin<int>,
-        IdentityRoleClaim<int>, IdentityUserToken<int>>
+            IdentityUserClaim<int>, UserRole, IdentityUserLogin<int>,
+            IdentityRoleClaim<int>, IdentityUserToken<int>>
         {
-            public DataContext(DbContextOptions<DataContext> options) : base(options) { }
-            public DbSet<Company> Companies { get; set; }
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        public DataContext(DbContextOptions options) : base(options) { }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        public DbSet<Company> Companies { get; set; }
             public DbSet<Service> Services { get; set; }
             public DbSet<CompanyProfile> CompanyProfiles { get; set; }
             public DbSet<Client> Clients { get; set; }
             public DbSet<ClientService> ClientServices { get; set; }
-
-        
-
-        public DbSet<SessionToken> SessionTokens { get; set; }
-            // public DbSet<User> Users { get; set; }
-            // public DbSet<Role> Roles { get; set; }
-            // public DbSet<UserRole> UserRoles { get; set; }
+            public DbSet<SessionToken> SessionTokens { get; set; }
             protected override void OnModelCreating(ModelBuilder modelBuilder)
             {
+                base.OnModelCreating(modelBuilder);
+
+                modelBuilder.Entity<UserRole>(ur =>
+                {
+                    ur.HasKey(ur => new { ur.UserId, ur.RoleId });
+                    ur.HasOne(ur => ur.Role).WithMany(r => r.UserRoles).HasForeignKey(ur => ur.RoleId);
+                    ur.HasOne(ur => ur.User).WithMany(u => u.UserRoles).HasForeignKey(ur => ur.UserId);
+                });
 
                 // one to many
                 modelBuilder.Entity<Company>()
@@ -47,15 +51,6 @@ namespace API_2.Data
                     .HasOne(c => c.Service)
                     .WithMany(c => c.ClientServices)
                     .HasForeignKey(c => c.ServiceId);
-
-                base.OnModelCreating(modelBuilder);
-
-                modelBuilder.Entity<UserRole>(ur =>
-                {
-                    ur.HasKey(ur => new { ur.UserId, ur.RoleId });
-                    ur.HasOne(ur => ur.Role).WithMany(r => r.UserRoles).HasForeignKey(ur => ur.RoleId);
-                    ur.HasOne(ur => ur.User).WithMany(u => u.UserRoles).HasForeignKey(ur => ur.UserId);
-                });
 
             }
         }

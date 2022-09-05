@@ -24,9 +24,9 @@ builder.Services.AddTransient<IUserService, UserService>();
 
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy(UserRoleType.Admin, policy => policy.RequireRole(UserRoleType.Admin));
-    options.AddPolicy(UserRoleType.User, policy => policy.RequireRole(UserRoleType.User));
-    options.AddPolicy(UserRoleType.Company, policy => policy.RequireRole(UserRoleType.Company));
+    options.AddPolicy("Admin", policy => policy.RequireRole(UserRoleType.Admin));
+    options.AddPolicy("User", policy => policy.RequireRole(UserRoleType.User));
+    options.AddPolicy("Company", policy => policy.RequireRole(UserRoleType.Company));
 });
 
 builder.Services.AddAuthentication(auth =>
@@ -34,8 +34,7 @@ builder.Services.AddAuthentication(auth =>
     auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     auth.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(options =>
+}).AddJwtBearer(options =>
 {
     options.SaveToken = true;
     options.TokenValidationParameters = new TokenValidationParameters

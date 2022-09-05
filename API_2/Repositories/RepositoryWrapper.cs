@@ -12,7 +12,9 @@ namespace API_2.Repositories
         private IServiceRepository _service;
         private IClientServiceRepository _clientService;
         private ICompanyProfileRepository _companyProfile;
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public RepositoryWrapper(DataContext context)
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             _context = context;
         }

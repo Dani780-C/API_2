@@ -13,5 +13,6 @@
             this.Email = client.Email;
             this.PhoneNumber = client.PhoneNumber;
         }
+        public ClientDataDTO() { }
     }
 }

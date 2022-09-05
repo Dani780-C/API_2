@@ -51,9 +51,11 @@ namespace API_2.Controllers
         {
             Client client = new Client();
 
+#pragma warning disable CS8604 // Possible null reference argument.
             var exist = await _repo.Client.GetClientByEmail(dto.Email);
+#pragma warning restore CS8604 // Possible null reference argument.
 
-            if(exist != null)
+            if (exist != null)
             {
                 return BadRequest("Client already exists!");
             }
@@ -97,5 +99,27 @@ namespace API_2.Controllers
 
             return NoContent();
         }
+
+        [HttpPut("update-client/{id_client}")]
+        public async Task<IActionResult> UpdateClient(int id_client, ClientDataDTO dto)
+        {
+            var client = await _repo.Client.GetClientById(id_client);
+
+            if(client == null)
+            {
+                return BadRequest("Client does not exist!");
+            }
+
+            client.FirstName = dto.FirstName;
+            client.LastName = dto.LastName;
+            client.Email = dto.Email;
+            client.PhoneNumber = dto.PhoneNumber;
+
+            _repo.Client.Update(client);
+            await _repo.SaveAsync();
+
+            return Ok("Client has been updated!");
+        }
+
     }
 }

@@ -17,10 +17,12 @@
             this.Email = client.Email;
             this.PhoneNumber = client.PhoneNumber;
             this.Services = new List<GetServiceDataDTO>();
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
             foreach (var clientservice in client.ClientServices)
             {
                 this.Services.Add(new GetServiceDataDTO(clientservice));
             }
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
         }
     }
 }

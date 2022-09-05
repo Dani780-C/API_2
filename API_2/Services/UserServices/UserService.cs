@@ -28,7 +28,11 @@ namespace API_2.Services.UserServices
             if (user != null)
             {
                 user = await _repo.User.GetByIdWithRoles(user.Id);
+#pragma warning disable CS8604 // Possible null reference argument.
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
                 List<string> roles = user.UserRoles.Select(ur => ur.Role.Name).ToList();
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+#pragma warning restore CS8604 // Possible null reference argument.
 
                 var newJti = Guid.NewGuid().ToString();
 
@@ -78,7 +82,7 @@ namespace API_2.Services.UserServices
             user.Email = dto.Email;
             user.FirstName = dto.FirstName;
             user.LastName = dto.LastName;
-            user.UserName = dto.FirstName + dto.LastName;
+            user.UserName = dto.Email;
 
             var result = await _userManager.CreateAsync(user, dto.Password);
 

@@ -9,7 +9,7 @@
         public int? Guarantee { get; set; }
         public string? Email { get; set; }
         public string? PhoneNumber { get; set; }
-        public int? CompanyId { get; set; }
+        public int CompanyId { get; set; }
         public Company? Company { get; set; }
         public ICollection<ClientService>? ClientServices { get; set; }
     }

@@ -4,6 +4,6 @@ namespace API_2.Models.Entities
 {
     public class Role : IdentityRole<int>
     {
-        public ICollection<UserRole> UserRoles { get; set; }
+        public ICollection<UserRole>? UserRoles { get; set; }
     }
 }

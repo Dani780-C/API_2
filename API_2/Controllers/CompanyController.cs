@@ -81,5 +81,42 @@ namespace API_2.Controllers
 
             return Ok(companiesToReturn);
         }
+
+        [HttpDelete("delete-company/{id_company}")]
+        public async Task<IActionResult> DeleteCompanyById(int id_company)
+        {
+            var company = await _repo.Company.GetCompanyById(id_company);
+
+            if (company == null)
+            {
+                return NotFound("Company does not exist!");
+            }
+
+            _repo.Company.Delete(company);
+            await _repo.SaveAsync();
+
+            return NoContent();
+        }
+
+        [HttpPut("update-company/{id_company}")]
+        public async Task<IActionResult> UpdateCompany(int id_company, CreateCompanyDTO dto)
+        {
+            var comp = await _repo.Company.GetCompanyById(id_company);
+
+            if(comp == null)
+            {
+                return BadRequest("Company does not exist!");
+            }
+
+            comp.CompanyName = dto.CompanyName;
+            comp.OwnerFirstName = dto.OwnerFirstName;
+            comp.OwnerLastName = dto.OwnerLastName;
+            comp.Type = dto.Type;
+
+            _repo.Company.Update(comp);
+            await _repo.SaveAsync();
+
+            return Ok("Company has been updated!");
+        }
     }
 }

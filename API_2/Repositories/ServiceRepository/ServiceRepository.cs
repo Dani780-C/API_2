@@ -15,7 +15,9 @@ namespace API_2.Repositories
 
         public async Task<Service> GetServiceById(int id)
         {
+#pragma warning disable CS8603 // Possible null reference return.
             return await _context.Services.Where(s => s.Id.Equals(id)).FirstOrDefaultAsync();
+#pragma warning restore CS8603 // Possible null reference return.
         }
 
         public async Task<List<Service>> GetAllServicesByIdClient(int id_client)

@@ -4,6 +4,7 @@ using API_2.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API_2.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220905001750_Modification")]
+    partial class Modification
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,7 +46,7 @@ namespace API_2.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Clients", (string)null);
+                    b.ToTable("Clients");
                 });
 
             modelBuilder.Entity("API_2.Models.Entities.ClientService", b =>
@@ -59,7 +61,7 @@ namespace API_2.Migrations
 
                     b.HasIndex("ServiceId");
 
-                    b.ToTable("ClientServices", (string)null);
+                    b.ToTable("ClientServices");
                 });
 
             modelBuilder.Entity("API_2.Models.Entities.Company", b =>
@@ -84,7 +86,7 @@ namespace API_2.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Companies", (string)null);
+                    b.ToTable("Companies");
                 });
 
             modelBuilder.Entity("API_2.Models.Entities.CompanyProfile", b =>
@@ -124,7 +126,7 @@ namespace API_2.Migrations
                     b.HasIndex("CompanyId")
                         .IsUnique();
 
-                    b.ToTable("CompanyProfiles", (string)null);
+                    b.ToTable("CompanyProfiles");
                 });
 
             modelBuilder.Entity("API_2.Models.Entities.Role", b =>
@@ -190,7 +192,7 @@ namespace API_2.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.ToTable("Services", (string)null);
+                    b.ToTable("Services");
                 });
 
             modelBuilder.Entity("API_2.Models.Entities.SessionToken", b =>
@@ -208,7 +210,7 @@ namespace API_2.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("SessionTokens", (string)null);
+                    b.ToTable("SessionTokens");
                 });
 
             modelBuilder.Entity("API_2.Models.Entities.User", b =>

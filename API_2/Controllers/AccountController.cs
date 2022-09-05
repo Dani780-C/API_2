@@ -52,11 +52,29 @@ namespace API_2.Controllers
         {
             var token = await _userService.LoginUser(dto);
 
-            if(token == null)
+            if(token == "")
             {
                 return Unauthorized();
             }
             return Ok(new { token });
+        }
+
+        [HttpGet("get-all-session-tokens")]
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
+        public async Task<IActionResult> GetAllTokens()
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
+        {
+            var tokens = _repo.SessionToken.GetAll();
+            return Ok(tokens);
+        }
+
+        [HttpDelete("delete-token")]
+        public async Task<IActionResult> DeleteToken()
+        {
+            var tokens = _repo.SessionToken.GetAll();
+            _repo.SessionToken.DeleteRange(tokens);
+            await _repo.SaveAsync();
+            return Ok("All deleted!");
         }
     }
 }

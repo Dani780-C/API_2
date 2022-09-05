@@ -24,11 +24,13 @@
                 this.CompanyProfile = null;
             }
             this.Services = new List<GetServiceForCompanyDTO>();
-            
-            foreach(var service in company.Services)
+
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+            foreach (var service in company.Services)
             {
                 this.Services.Add(new GetServiceForCompanyDTO(service));
             }
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
 
         }
 
