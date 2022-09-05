@@ -34,6 +34,7 @@ namespace API_2.Controllers
         }
 
         [HttpDelete("delete-all-users")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public async Task<IActionResult> DeleteAllUsers()
         {
             var users = _repo.User.GetAll();

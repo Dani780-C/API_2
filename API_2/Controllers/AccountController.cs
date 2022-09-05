@@ -25,8 +25,8 @@ namespace API_2.Controllers
             _repo = repo;
         }
 
-        [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterUserDTO dto)
+        [HttpPost("register-as-client")]
+        public async Task<IActionResult> RegisterAsClient([FromBody] RegisterUserDTO dto)
         {
             var exists = await _userManager.FindByEmailAsync(dto.Email);
 
@@ -35,13 +35,33 @@ namespace API_2.Controllers
                 return BadRequest("User already registered!");
             }
 
-            var result = await _userService.RegisteredUserAsync(dto);
+            var result = await _userService.RegisteredUserClientAsync(dto);
 
             if(result == true)
             {
                 return Ok(result);
             }
             
+            return BadRequest();
+        }
+
+        [HttpPost("register-as-company")]
+        public async Task<IActionResult> RegisterAsCompany([FromBody] RegisterUserDTO dto)
+        {
+            var exists = await _userManager.FindByEmailAsync(dto.Email);
+
+            if (exists != null)
+            {
+                return BadRequest("User already registered!");
+            }
+
+            var result = await _userService.RegisteredUserCompanyAsync(dto);
+
+            if (result == true)
+            {
+                return Ok(result);
+            }
+
             return BadRequest();
         }
 
@@ -57,7 +77,7 @@ namespace API_2.Controllers
             return Ok(new { token });
         }
 
-        [HttpGet("get-all-session-tokens")]
+        /* [HttpGet("get-all-session-tokens")]
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public async Task<IActionResult> GetAllTokens()
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
@@ -73,6 +93,6 @@ namespace API_2.Controllers
             _repo.SessionToken.DeleteRange(tokens);
             await _repo.SaveAsync();
             return Ok("All deleted!");
-        }
+        } */
     }
 }

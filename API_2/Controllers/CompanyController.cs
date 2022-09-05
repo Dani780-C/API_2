@@ -18,6 +18,7 @@ namespace API_2.Controllers
         }
 
         [HttpPost("create-company")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Company")]
         public async Task<IActionResult> CreateCompany(CreateCompanyDTO company)
         {
             Company newcomp = new Company();
@@ -34,6 +35,7 @@ namespace API_2.Controllers
         }
 
         [HttpPost("create-company-profile")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Company")]
         public async Task<IActionResult> CreateCompanyProfile(CreateCompanyProfileDTO profile)
         {
 
@@ -69,6 +71,7 @@ namespace API_2.Controllers
         }
 
         [HttpGet("get-all-companies")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Company, User, Admin")]
         public async Task<IActionResult> GetAllCompanies()
         {
             var companies = await _repo.Company.GetAllCompanies();
@@ -83,6 +86,7 @@ namespace API_2.Controllers
         }
 
         [HttpDelete("delete-company/{id_company}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Company, Admin")]
         public async Task<IActionResult> DeleteCompanyById(int id_company)
         {
             var company = await _repo.Company.GetCompanyById(id_company);
@@ -99,6 +103,7 @@ namespace API_2.Controllers
         }
 
         [HttpPut("update-company/{id_company}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Company, Admin")]
         public async Task<IActionResult> UpdateCompany(int id_company, CreateCompanyDTO dto)
         {
             var comp = await _repo.Company.GetCompanyById(id_company);

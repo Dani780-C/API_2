@@ -76,7 +76,7 @@ namespace API_2.Services.UserServices
             return token;
         }
 
-        public async Task<bool> RegisteredUserAsync(RegisterUserDTO dto)
+        public async Task<bool> RegisteredUserClientAsync(RegisterUserDTO dto)
         {
             var user = new User();
             user.Email = dto.Email;
@@ -88,7 +88,25 @@ namespace API_2.Services.UserServices
 
             if (result.Succeeded)
             {
-                await _userManager.AddToRoleAsync(user, UserRoleType.Admin);
+                await _userManager.AddToRoleAsync(user, UserRoleType.User);
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<bool> RegisteredUserCompanyAsync(RegisterUserDTO dto)
+        {
+            var user = new User();
+            user.Email = dto.Email;
+            user.FirstName = dto.FirstName;
+            user.LastName = dto.LastName;
+            user.UserName = dto.Email;
+
+            var result = await _userManager.CreateAsync(user, dto.Password);
+
+            if (result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(user, UserRoleType.Company);
                 return true;
             }
             return false;

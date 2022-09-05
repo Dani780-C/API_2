@@ -18,6 +18,7 @@ namespace API_2.Controllers
         }
 
         [HttpGet("get-all-clients")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Company, Admin")]
         public async Task<IActionResult> GetAllClients()
         {
             var clients = await _repo.Client.GetAllClientsWithData();
@@ -32,6 +33,7 @@ namespace API_2.Controllers
         }
 
         [HttpGet("get-all-clients-with-services")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Company, Admin")]
         public async Task<IActionResult> GetAllClientsWithServices()
         {
             var clients = await _repo.Client.GetAllClientsWithServices();
@@ -47,6 +49,7 @@ namespace API_2.Controllers
         }
 
         [HttpPost]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "User, Admin")]
         public async Task<IActionResult> CreateClient(CreateClientDTO dto)
         {
             Client client = new Client();
@@ -72,6 +75,7 @@ namespace API_2.Controllers
         }
 
         [HttpGet("get-client-by-id/{id}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Company, Admin")]
         public async Task<IActionResult> GetClientById(int id)
         {
             var client = await _repo.Client.GetClientDataById(id);
@@ -85,6 +89,7 @@ namespace API_2.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "User, Admin")]
         public async Task<IActionResult> DeleteClientById(int id)
         {
             var client = await _repo.Client.GetByIdAsync(id);
@@ -101,6 +106,7 @@ namespace API_2.Controllers
         }
 
         [HttpPut("update-client/{id_client}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "User, Admin")]
         public async Task<IActionResult> UpdateClient(int id_client, ClientDataDTO dto)
         {
             var client = await _repo.Client.GetClientById(id_client);

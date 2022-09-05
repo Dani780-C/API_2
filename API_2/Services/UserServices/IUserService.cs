@@ -5,7 +5,8 @@ namespace API_2.Services.UserServices
 {
     public interface IUserService
     {
-        Task<bool> RegisteredUserAsync(RegisterUserDTO dto);
+        Task<bool> RegisteredUserClientAsync(RegisterUserDTO dto);
+        Task<bool> RegisteredUserCompanyAsync(RegisterUserDTO dto);
         Task<string> LoginUser(LoginUserDTO dto);
     }
 }

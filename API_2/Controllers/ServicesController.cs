@@ -9,6 +9,7 @@ using API_2.Data;
 using API_2.Models.Entities;
 using API_2.Repositories;
 using API_2.Models.Entities.DTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API_2.Controllers
 {
@@ -25,6 +26,7 @@ namespace API_2.Controllers
 
         
         [HttpGet("get-all-services")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Company, User, Admin")]
         public async Task<IActionResult> GetAllServices()
         {
 
@@ -41,6 +43,7 @@ namespace API_2.Controllers
         }
 
         [HttpPost("create-service")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Company, Admin")]
         public async Task<ActionResult<Service>> CreateService(CreateServiceDTO service)
         {
 
@@ -68,6 +71,7 @@ namespace API_2.Controllers
         }
 
         [HttpPost("call-service")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "User, Admin")]
         public async Task<IActionResult> CallService(CallServiceDTO dto)
         {
 
@@ -90,6 +94,7 @@ namespace API_2.Controllers
         }
 
         [HttpGet("get-all-services-by-clientid/{id_client}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Company, User, Admin")]
         public async Task<IActionResult> GetServicesForAClient(int id_client)
         {
             Client client = await _repo.Client.GetClientById(id_client);
@@ -111,6 +116,7 @@ namespace API_2.Controllers
         }
 
         [HttpPut("update-service/{id_service}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Company, Admin")]
         public async Task<IActionResult> UpdateService(int id_service, CreateServiceDTO dto)
         {
             Company comp = await _repo.Company.GetCompanyById(dto.CompanyId);
@@ -146,6 +152,7 @@ namespace API_2.Controllers
         }
 
         [HttpDelete("delete-service/{id_service}")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Company, Admin")]
         public async Task<IActionResult> DeleteServiceById(int id_service)
         {
             var service = await _repo.Service.GetServiceById(id_service);
