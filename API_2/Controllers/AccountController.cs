@@ -26,7 +26,6 @@ namespace API_2.Controllers
         }
 
         [HttpPost("register")]
-        [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody] RegisterUserDTO dto)
         {
             var exists = await _userManager.FindByEmailAsync(dto.Email);
@@ -47,7 +46,6 @@ namespace API_2.Controllers
         }
 
         [HttpPost("login")]
-        [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] LoginUserDTO dto)
         {
             var token = await _userService.LoginUser(dto);

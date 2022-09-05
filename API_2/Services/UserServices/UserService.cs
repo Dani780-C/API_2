@@ -25,7 +25,7 @@ namespace API_2.Services.UserServices
         {
             User user = await _userManager.FindByEmailAsync(dto.Email);
 
-            if (user != null)
+            if (user != null && await _userManager.CheckPasswordAsync(user, dto.Password))
             {
                 user = await _repo.User.GetByIdWithRoles(user.Id);
 #pragma warning disable CS8604 // Possible null reference argument.
@@ -88,7 +88,7 @@ namespace API_2.Services.UserServices
 
             if (result.Succeeded)
             {
-                await _userManager.AddToRoleAsync(user, UserRoleType.User);
+                await _userManager.AddToRoleAsync(user, UserRoleType.Admin);
                 return true;
             }
             return false;

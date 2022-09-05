@@ -17,7 +17,9 @@ namespace API_2.Controllers
             _repo = repo;
         }
 
+        
         [HttpGet]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public async Task<IActionResult> GetAllUsers()
         {
             var users = await _repo.User.GetAllUsers();
