@@ -115,6 +115,14 @@ namespace API_2.Controllers
             return Ok(toReturn);
         }
 
+        [HttpGet("get-servicestype")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "User, Admin")]
+        public async Task<IActionResult> GetServicesType()
+        {
+            var joined = await _repo.Service.GetJoined();
+            return Ok(joined);
+        }
+
         [HttpPut("update-service/{id_service}")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Company, Admin")]
         public async Task<IActionResult> UpdateService(int id_service, CreateServiceDTO dto)
@@ -167,5 +175,7 @@ namespace API_2.Controllers
 
             return NoContent();
         }
+
+        
     }
 }

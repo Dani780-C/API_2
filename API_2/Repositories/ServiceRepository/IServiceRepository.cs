@@ -1,4 +1,5 @@
 ﻿using API_2.Models.Entities;
+using API_2.Models.Entities.DTOs;
 
 namespace API_2.Repositories
 {
@@ -7,5 +8,6 @@ namespace API_2.Repositories
         Task<List<Service>> GetAllServices();
         Task<Service> GetServiceById(int id);
         Task<List<Service>> GetAllServicesByIdClient(int id_client);
+        Task<List<ServiceTypeDTO>> GetJoined();
     }
 }

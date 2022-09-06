@@ -1,6 +1,8 @@
 ﻿using API_2.Data;
 using API_2.Models.Entities;
+using API_2.Models.Entities.DTOs;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace API_2.Repositories
 {
@@ -23,6 +25,11 @@ namespace API_2.Repositories
         public async Task<List<Service>> GetAllServicesByIdClient(int id_client)
         {
             return await _context.Services.FromSqlRaw("Select s.* from Services s, ClientServices cs, Clients c where s.Id = cs.ServiceId and cs.ClientId = c.Id and c.Id = " + id_client.ToString() + ";").ToListAsync();
+        }
+
+        public async Task<List<ServiceTypeDTO>> GetJoined()
+        {
+            return await _context.Services.Join(_context.Companies, service => service.CompanyId, comp => comp.Id, (service, comp) => new ServiceTypeDTO(service.ServiceName, comp.Type)).ToListAsync();
         }
     }
 }

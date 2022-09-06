@@ -85,6 +85,16 @@ namespace API_2.Controllers
             return Ok(companiesToReturn);
         }
 
+        [HttpGet("get-all-companies_grouped-by-type")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Company, User, Admin")]
+        public async Task<IActionResult> GetAllCompaniesGrouped()
+        {
+            var companies = await _repo.Company.GetAllAsync();
+            var result = companies.GroupBy(comp => comp.Type);
+            
+            return Ok(result);
+        }
+
         [HttpDelete("delete-company/{id_company}")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "Company, Admin")]
         public async Task<IActionResult> DeleteCompanyById(int id_company)
